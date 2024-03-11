@@ -1,28 +1,22 @@
 const express = require('express');
-const connectDB = require('./db'); // Import the database connection
 const cors = require('cors');
+const connectDB = require('./config/db');
+const taskRoutes = require('./routes/todoRoutes');
+
 const app = express();
 
-// Middleware
-app.use(express.json()); // For parsing application/json
-app.use(cors()); // Enable cross-origin requests
-
-// Connect to MongoDB
+// Connect to database
 connectDB();
 
-// Import the routes once
-const todoRoutes = require('./routes/todoRoutes');
+// Middleware
+app.use(express.json()); // To parse JSON body
+app.use(cors()); // Enable cross-origin requests
 
-// Use the routes for /api/todos
-app.use('/api/todos', todoRoutes);
+// Routes
+app.use('/api', taskRoutes);
 
-// Define a basic route
-app.get('/', (req, res) => {
-  res.send('Welcome to the Todo App');
-});
-
-// Start the server
+// Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

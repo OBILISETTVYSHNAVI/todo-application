@@ -11,7 +11,7 @@ COPY package*.json ./
 RUN ls -la
 
 # Install dependencies
-RUN npm install --verbose
+RUN npm install
 
 # Copy the source code into the container
 COPY . .
