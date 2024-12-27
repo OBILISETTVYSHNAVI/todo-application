@@ -1,0 +1,9 @@
+# Ensure files with these extensions use LF line endings
+*.js text eol=lf
+*.css text eol=lf
+*.json text eol=lf
+*.html text eol=lf
+*.md text eol=lf
+
+# Files that you want to preserve CRLF line endings on (for example, Windows batch scripts)
+*.bat text eol=crlf
