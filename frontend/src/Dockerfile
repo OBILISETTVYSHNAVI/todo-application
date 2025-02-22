@@ -1,21 +1,27 @@
 # Use an official Node.js image
-FROM node:18 AS build
+FROM node:18
 
 # Set the working directory
 WORKDIR /app
 
-# Copy package.json and install dependencies
+# Copy package.json and package-lock.json (if present)
 COPY package*.json ./
-RUN npm install
+
+# List the files in the current directory to verify if package.json is copied
+RUN ls -la
+
+# Test network connectivity to npm registry
+RUN curl -v https://registry.npmjs.org
+
+# Clear npm cache and install dependencies with verbose logging
+RUN npm cache clean --force
+
 
 # Copy the source code
 COPY . .
 
-# Build the frontend
-RUN npm run build
+# Expose the port (adjust if necessary for your app)
+EXPOSE 3000
 
-# Serve the frontend using nginx
-FROM nginx:alpine
-COPY --from=build /app/dist /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+# Command to run the app (adjust if necessary)
+CMD ["npm", "start"]
