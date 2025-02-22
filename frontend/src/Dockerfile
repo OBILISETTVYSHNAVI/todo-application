@@ -1,27 +1,23 @@
 # Use an official Node.js image
 FROM node:18
 
-# Set the working directory
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json (if present)
+# Copy package.json and package-lock.json into the container
 COPY package*.json ./
 
-# List the files in the current directory to verify if package.json is copied
+# List files to verify that package.json has been copied
 RUN ls -la
 
-# Test network connectivity to npm registry
-RUN curl -v https://registry.npmjs.org
+# Install dependencies
+RUN npm install --verbose
 
-# Clear npm cache and install dependencies with verbose logging
-RUN npm cache clean --force
-
-
-# Copy the source code
+# Copy the source code into the container
 COPY . .
 
-# Expose the port (adjust if necessary for your app)
+# Expose the application port
 EXPOSE 3000
 
-# Command to run the app (adjust if necessary)
+# Start the application
 CMD ["npm", "start"]
